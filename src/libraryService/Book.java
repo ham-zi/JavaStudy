@@ -1,4 +1,4 @@
-package LibraryService;
+package libraryService;
 
 public class Book {
 
