@@ -2,11 +2,13 @@ package libraryService;
 
 public class Book {
 
+
+
     private final String title;
     private final String author;
-    private int count=0;
     private final int id;
     private static int bookId = 0;
+    private boolean isBook;
 
     private Book(String title, String author) {
 
@@ -19,14 +21,13 @@ public class Book {
 
         this.title = title;
         this.author = author;
-        this.count ++;
         this.id = ++bookId;
+        this.isBook = true;
 
     }
 
 
-
-    public static Book of(String title, String author) {
+    public static Book register(String title, String author) {
         return new Book(title, author);
     }
 
@@ -42,17 +43,10 @@ public class Book {
         return id;
     }
 
-    public int getCount() {
-        return count;
-    }
+    public Boolean getIsBook() { return isBook; }
 
-    public void isRented() {
-        if (count == 0) {
-            System.out.printf("\"%s\"는 재고가 없습니다.\n",title);
-        }else {
-            System.out.printf("\"%s\"는 %d권 존재합니다.\n",title,count);
-        }
-    }
+    public void changeToIsNotBook() { isBook = false; }
+    public void changeToIsBook() { isBook = true; }
 
 
 }
