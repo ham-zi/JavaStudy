@@ -1,8 +1,9 @@
 package libraryService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Book {
-
-
 
     private final String title;
     private final String author;
@@ -27,7 +28,7 @@ public class Book {
     }
 
 
-    public static Book register(String title, String author) {
+    public static Book of(String title, String author) {
         return new Book(title, author);
     }
 
@@ -45,8 +46,8 @@ public class Book {
 
     public Boolean getIsBook() { return isBook; }
 
-    public void changeToIsNotBook() { isBook = false; }
-    public void changeToIsBook() { isBook = true; }
+    public void changeToCanNotRental() { isBook = false; }
+    public void changeToCanRental() { isBook = true; }
 
 
 }
