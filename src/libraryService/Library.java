@@ -8,10 +8,34 @@ public class Library {
 
     Scanner scanner = new Scanner(System.in);
     private final List<Book>books = new ArrayList<>();
+    private final List<Member>members = new ArrayList<>();
 
 
-    public void registerBook(Book book) {
-        books.add(book);
+    public void registerBook(String title, String author) {
+        books.add(Book.of(title, author));
+    }
+
+    public void registerMember(String name, String id, String passWord) {
+        members.add(Member.of(name,id,passWord));
+    }
+
+    public Member getMember(String id, String pass) {
+        Member member=null;
+        for(Member m:members) {
+            if( m.getId().equals(id) && m.getPassWord().equals(pass) ) {
+                member = m;
+            }
+        }
+        return member;
+    }
+
+    public boolean isMember(String id, String pass) {
+        for (Member m : members) {
+            if ( m.getId().equals(id) && m.getPassWord().equals(pass) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void printBooks() {
@@ -25,7 +49,7 @@ public class Library {
     public void printCanRental() {
         System.out.println("대여 가능한 책 목록:");
         for (Book book : books) {
-            if (book.getHasBook()) {
+            if (book.getIsAvailable()) {
                 System.out.printf("제목:%1$s, 저자:%2$s\n",book.getTitle(),book.getAuthor());
             }
         }
@@ -39,9 +63,9 @@ public class Library {
         String author = scanner.nextLine();
         for (Book book : books) {
             if (title.equals(book.getTitle()) && author.equals(book.getAuthor())) {
-                if (book.getHasBook()) {
+                if (book.getIsAvailable()) {
                     book.changeToCanNotRental();
-                    member.getRentBooks().add(book);
+                    member.addRentBooks(book);
                     System.out.println(book.getTitle() + "을(를) 대여하셨습니다.");
                 } else {
                     System.out.println("대여 가능한 책이 아닙니다.");
@@ -49,7 +73,7 @@ public class Library {
                 return;
             }
         }
-        System.out.println("오류 : 대여할 책의 이름과 저자를 확인해주세요.");
+        System.out.println("대여할 책의 이름과 저자를 확인해주세요.");
     }
 
     public void returnBook(Member member) {
@@ -61,8 +85,9 @@ public class Library {
         for (Book book :member.getRentBooks()) {
             if (title.equals(book.getTitle()) && author.equals(book.getAuthor())) {
                 book.changeToCanRental();
-                member.getRentBooks().remove(book);
+                member.removeRentBooks(title, author);
                 System.out.println(book.getTitle() + "을(를) 반납하셨습니다.");
+                return;
             }
         }
 

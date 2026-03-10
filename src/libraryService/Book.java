@@ -9,7 +9,7 @@ public class Book {
     private final String author;
     private final int id;
     private static int bookId = 0;
-    private boolean hasBook;
+    private boolean isAvailable;
 
     private Book(String title, String author) {
 
@@ -23,7 +23,7 @@ public class Book {
         this.title = title;
         this.author = author;
         this.id = ++bookId;
-        this.hasBook = true;
+        this.isAvailable = true;
 
     }
 
@@ -44,11 +44,11 @@ public class Book {
         return id;
     }
 
-    public Boolean getHasBook() { return hasBook; }
+    public Boolean getIsAvailable() { return isAvailable; }
 
 
-    public void changeToCanNotRental() { hasBook = false; }
-    public void changeToCanRental() { hasBook = true; }
+    public void changeToCanNotRental() { isAvailable = false; }
+    public void changeToCanRental() { isAvailable = true; }
 
 
 }
