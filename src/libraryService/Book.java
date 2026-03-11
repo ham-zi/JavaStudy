@@ -1,7 +1,6 @@
 package libraryService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 public class Book {
 
@@ -10,13 +9,14 @@ public class Book {
     private final int id;
     private static int bookId = 0;
     private boolean isAvailable;
+    private LocalDate lendDay;
 
     private Book(String title, String author) {
 
-        if ( title == null || title.isEmpty()) {
+        if (title == null || title.isEmpty()) {
             throw new IllegalArgumentException("Book title");
         }
-        if ( author == null || author.isEmpty()) {
+        if (author == null || author.isEmpty()) {
             throw new IllegalArgumentException("Book author");
         }
 
@@ -44,11 +44,25 @@ public class Book {
         return id;
     }
 
-    public Boolean getIsAvailable() { return isAvailable; }
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setLendDay() {
+        lendDay = LocalDate.now();
+    }
+    public void resetLendDay() {
+        lendDay = null;
+    }
 
 
-    public void changeToCanNotRental() { isAvailable = false; }
-    public void changeToCanRental() { isAvailable = true; }
+    public void makeUnavailable() {
+        isAvailable = false;
+    }
+
+    public void makeAvailable() {
+        isAvailable = true;
+    }
 
 
 }
