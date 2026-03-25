@@ -9,9 +9,9 @@ import java.util.Scanner;
 public class View {
     Scanner sc = new Scanner(System.in);
     Controller ct = new Controller();
+    List<Fruit> fruits = ct.getFruits();
 
     public void fruitStoreMenu() {
-
         while (true) {
             System.out.println("----- fruit Counter -----");
             System.out.println(" 1 : 과일 상품 추가 ");
@@ -46,7 +46,6 @@ public class View {
     }
 
     public void printAllFruit() {
-        List<Fruit> fruits = ct.getFruits();
         System.out.println("----- 진열된 과일 상품 -----");
         for (Fruit fruit : fruits) {
             if (fruit != null) {
@@ -69,6 +68,7 @@ public class View {
         sc.nextLine();
         Fruit firstFruit = Fruit.fruit(name, variety, price, count);
         ct.registerFruit(firstFruit);
+        fruits.add(firstFruit);
     }
 
     public void sellFruit() {
@@ -78,7 +78,7 @@ public class View {
         System.out.print("판매 개수 > ");
         int sellCount = sc.nextInt();
         Fruit theFruit = ct.findFruit(fruitName);
-        if(theFruit == null) {
+        if (theFruit == null) {
             System.out.println("해당 과일이 없습니다.");
             return;
         }

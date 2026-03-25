@@ -1,28 +1,21 @@
 package fruitStore.service;
 
+import fruitStore.repository.FruitRepository;
+import fruitStore.repository.MemoryFruitRepository;
 import fruitStore.vo.Fruit;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class Service {
+    FruitRepository repo = new MemoryFruitRepository();
 
-    List<Fruit>fruits = new ArrayList<>();
+
 
     public void registerFruit(Fruit fruit) {
-        fruits.add(fruit);
-    }
-
-    public void removeFruit() {
-
-    }
-
-    public List<Fruit> getFruits(){
-        return fruits;
+        repo.registerFruit(fruit);
     }
 
     public Fruit findSellingFruit(String fruit) {
-        for (Fruit f : fruits) {
+        for (Fruit f : repo.getFruits()) {
             if (f.getName().equals(fruit)) {
                 return f;
             }
@@ -38,9 +31,11 @@ public class Service {
 
     public void soldOutCheck(Fruit fruit){
         if(fruit.countIsZero() ==1){
-            fruits.remove(fruit);
+            repo.removeFruit(fruit);
         }
     }
-
+    public List<Fruit> getFruits(){
+        return repo.getFruits();
+    }
 
 }
