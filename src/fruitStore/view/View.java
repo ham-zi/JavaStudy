@@ -3,15 +3,16 @@ package fruitStore.view;
 import fruitStore.controller.Controller;
 import fruitStore.vo.Fruit;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class View {
-    Scanner sc = new Scanner(System.in);
     Controller ct = new Controller();
     List<Fruit> fruits = ct.getFruits();
 
     public void fruitStoreMenu() {
+        Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.println("----- fruit Counter -----");
             System.out.println(" 1 : 과일 상품 추가 ");
@@ -24,11 +25,11 @@ public class View {
 
             switch (num) {
                 case "1": {
-                    addFruit();
+                    addFruit(sc);
                     break;
                 }
                 case "2": {
-                    sellFruit();
+                    sellFruit(sc);
                     break;
                 }
                 case "3": {
@@ -55,40 +56,52 @@ public class View {
         System.out.println("--------------------------");
     }
 
-    public void addFruit() {
+    public void addFruit(Scanner sc) {
         System.out.println("[과일 상품 추가]");
         System.out.print("과일이름 > ");
         String name = sc.nextLine();
         System.out.print(" 품종 > ");
         String variety = sc.nextLine();
         System.out.print(" 가격(1EA) > ");
-        int price = sc.nextInt();
+        String priceInput = sc.nextLine();
         System.out.print(" 개수(EA) > ");
-        int count = sc.nextInt();
-        sc.nextLine();
-        Fruit firstFruit = Fruit.fruit(name, variety, price, count);
-        ct.registerFruit(firstFruit);
-        fruits.add(firstFruit);
+        String countInput = sc.nextLine();
+        try {
+            int price = Integer.parseInt(priceInput);
+            int count = Integer.parseInt(countInput);
+            ct.registerFruit(name, variety,price,count);
+        } catch (NumberFormatException e) {
+            System.out.println("가격이나 개수에 숫자를 입력해주세요.");
+        }
     }
 
-    public void sellFruit() {
+    public void sellFruit(Scanner sc) {
         System.out.println("[과일 판매]");
         System.out.print("과일 이름 > ");
         String fruitName = sc.nextLine();
+        System.out.println("과일 품종 > ");
+        String fruitVariety = sc.nextLine();
         System.out.print("판매 개수 > ");
-        int sellCount = sc.nextInt();
-        Fruit theFruit = ct.findFruit(fruitName);
-        if (theFruit == null) {
-            System.out.println("해당 과일이 없습니다.");
-            return;
+        String sellCount = sc.nextLine();
+
+        try{ int count = Integer.parseInt(sellCount);
+            Fruit theFruit = ct.findFruit(fruitName,fruitVariety);
+
+            if (theFruit == null) {
+                System.out.println("해당 과일이 없습니다.");
+                return;
+            }
+            if (ct.availableSelling(theFruit.getCount(), count) == 1) {
+                theFruit.discountFruit(count);
+            } else {
+                System.out.println("판매 개수가 잘못 입력되었습니다.");
+            }
+            System.out.println("금액 : " + theFruit.getPrice() * count + "원");
+            ct.soldOutCheck(theFruit);
+
+        } catch (NumberFormatException e) {
+            System.out.println("판매 개수에 숫자를 입력해주세요.");
         }
-        if (ct.availableSelling(theFruit.getCount(), sellCount) == 1) {
-            theFruit.discountFruit(sellCount);
-        } else {
-            System.out.println("판매 개수가 잘못 입력되었습니다.");
-        }
-        System.out.println("금액 : " + theFruit.getPrice() * sellCount + "원");
-        ct.soldOutCheck(theFruit);
     }
 
 }

@@ -1,5 +1,7 @@
 package fruitStore.vo;
 
+import java.util.InputMismatchException;
+
 public class Fruit {
 
     private final String name;
@@ -8,6 +10,20 @@ public class Fruit {
     private int count;
 
     private Fruit(String name, String variety, int price, int count) {
+
+        if(name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("이름 입력 에러");
+        }
+        if(variety == null || name.isEmpty()) {
+            throw new IllegalArgumentException("품종 입력 에러");
+        }
+        if(price <= 0)  {
+            throw new IllegalArgumentException("금액 입력 에러");
+        }
+        if(count <0 ) {
+            throw new IllegalArgumentException("수량 입력 에러");
+        }
+
         this.name = name;
         this.variety = variety;
         this.price = price;

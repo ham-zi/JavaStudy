@@ -12,8 +12,9 @@ public class MemoryFruitRepository implements FruitRepository{
 
 
     @Override
-    public void registerFruit(Fruit fruit) {
-       this.fruit = fruit;
+    public void registerFruit(String name,String variety, int price, int count) {
+       fruit = Fruit.fruit(name, variety, price, count);
+       fruits.add(fruit);
     }
 
 

@@ -10,13 +10,13 @@ public class Service {
 
 
 
-    public void registerFruit(Fruit fruit) {
-        repo.registerFruit(fruit);
+    public void registerFruit(String name,String variety, int price, int count) {
+        repo.registerFruit(name, variety,price,count);
     }
 
-    public Fruit findSellingFruit(String fruit) {
+    public Fruit findSellingFruit(String fruit, String variety) {
         for (Fruit f : repo.getFruits()) {
-            if (f.getName().equals(fruit)) {
+            if (f.getName().equals(fruit) && f.getVariety().equals(variety)) {
                 return f;
             }
         }
