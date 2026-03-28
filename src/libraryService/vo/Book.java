@@ -1,4 +1,4 @@
-package libraryService;
+package libraryService.vo;
 
 import java.time.LocalDate;
 
@@ -6,10 +6,9 @@ public class Book {
 
     private final String title;
     private final String author;
-    private final int id;
+    private final String id;
     private static int bookId = 0;
-    private boolean isAvailable;
-    private LocalDate lendDay;
+    private int stock;
 
     private Book(String title, String author) {
 
@@ -22,9 +21,8 @@ public class Book {
 
         this.title = title;
         this.author = author;
-        this.id = ++bookId;
-        this.isAvailable = true;
-
+        this.id = Integer.toString(++bookId);
+        this.stock = 1;
     }
 
 
@@ -40,29 +38,25 @@ public class Book {
         return author;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
+    public int getStock() {
+        return stock;
     }
 
-    public void setLendDay() {
-        lendDay = LocalDate.now();
-    }
-    public void resetLendDay() {
-        lendDay = null;
+    public void plusStock() {
+        stock++;
     }
 
-
-    public void makeUnavailable() {
-        isAvailable = false;
+    public void minusStock() {
+        stock--;
     }
 
-    public void makeAvailable() {
-        isAvailable = true;
+    @Override
+    public String toString(){
+        return "[제목:"+getTitle()+", 작가:"+getAuthor()+", 재고:"+ getStock() + "]";
     }
-
 
 }
