@@ -10,7 +10,7 @@ public class MemoryBookRepository implements BookRepository {
     private final List<Book> books = new ArrayList<>();
 
     @Override
-    public void addBook(Book book){
+    public void addBook(Book book) {
         books.add(book);
     }
 
@@ -31,19 +31,15 @@ public class MemoryBookRepository implements BookRepository {
         return result;
     }
 
-
-    /*
-
-
-    public void removeRentBooks(Book book) {
-        Iterator<Book> it = rentBooks.iterator();
-        while (it.hasNext()) {
-            Book current = it.next();
-            if (current.equals(book)) {
-                it.remove();
-                return;
+    @Override
+    public String getIdToBook(String bookId) {
+        for (Book book : books) {
+            if (book.getId().equals(bookId)) {
+                return "[제목:" + book.getTitle() + ", 저자:" + book.getAuthor() + "]";
             }
         }
-    }*/
-
+        return null;
+    }
 }
+
+

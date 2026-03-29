@@ -5,9 +5,14 @@ import libraryService.repository.MemoryBookRepository;
 import libraryService.vo.Book;
 import libraryService.vo.Member;
 
-public class BookService {
-    private final BookRepository bookRepository = new MemoryBookRepository();
+import java.util.List;
 
+public class BookService {
+    private final BookRepository bookRepository;
+
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public void printBooks(){
         for (Book book : bookRepository.getBooks()){
@@ -33,6 +38,12 @@ public class BookService {
             bookRepository.addBook(book);
         } else {
             bookRepository.findBook(title, author).plusStock();
+        }
+    }
+
+    public void printIdToBook(List<String>list) {
+        for(String bookId : list) {
+            System.out.println(bookRepository.getIdToBook(bookId));
         }
     }
 

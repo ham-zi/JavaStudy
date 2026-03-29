@@ -59,4 +59,5 @@ public class Book {
         return "[제목:"+getTitle()+", 작가:"+getAuthor()+", 재고:"+ getStock() + "]";
     }
 
+
 }

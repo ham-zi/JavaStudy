@@ -5,9 +5,11 @@ import libraryService.Service.MemberService;
 import libraryService.vo.Member;
 
 public class MemberController {
-    private final BookService bookService = new BookService();
-    private final MemberService memberService = new MemberService();
+    private final MemberService memberService;
 
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
     // Member
     public void signUp(String name, String id, String pw) {
         memberService.signUp(name,id,pw);

@@ -1,21 +1,28 @@
 package libraryService.Service;
 
-import libraryService.repository.MemoryRentRepository;
 import libraryService.repository.RentRepository;
 import libraryService.vo.Book;
 import libraryService.vo.Member;
 import libraryService.vo.Rent;
 
+import java.util.List;
+
 public class RentService {
-    private final RentRepository rentRepository = new MemoryRentRepository();
+    private final RentRepository rentRepository;
+
+    public RentService(RentRepository rentRepository) {
+        this.rentRepository = rentRepository;
+    }
 
     public int borrowBook(Member member, Book book) {
         Rent rent = rentRepository.findRentBooks(member.getId());
-
+        if(book.getStock() == 0) {
+            return 4;
+        }
         if (rent == null) {
             return 2;
         }
-        if (rent.getStockRentBooks() > 3 && !rent.hasThisBook(book)) { // 3개 미만이냐, 똑같은책없냐
+        if (rent.rentBookRole(book)) {
             rent.addRentBooks(book);
             book.minusStock();
             return 1;
@@ -33,22 +40,23 @@ public class RentService {
             rent.removeRentBooks(book);
             book.plusStock();
             return 1;
-        } else {return 3; }
+        } else {return 3;
+        }
 
 
 
     }
 
     public void registerRent(String id) {
-        Rent.of(id);
+        Rent rent = Rent.of(id);
+        rentRepository.registerRentBooks(rent);
     }
 
-    public void printRentedBooks(Member member) {
+    public List<String> getRentedBooks(Member member) {
         Rent rent = rentRepository.findRentBooks(member.getId());
-        for (String s : rent.getRentBooks()) {
-            System.out.println(s);
+        return rent.getRentBooks();
+
         }
     }
 
 
-}

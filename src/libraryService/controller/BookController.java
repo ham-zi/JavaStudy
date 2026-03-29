@@ -3,9 +3,14 @@ package libraryService.controller;
 import libraryService.Service.BookService;
 import libraryService.vo.Book;
 
-public class BookController {
-    BookService bookService = new BookService();
+import java.util.List;
 
+public class BookController {
+    private final BookService bookService;
+
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
 
     // BookRepository
     public void printBooks() {
@@ -22,6 +27,10 @@ public class BookController {
 
     public Book getBook(String title, String author) {
         return bookService.getBook(title,author);
+    }
+
+    public void printIdToBook(List<String>list) {
+        bookService.printIdToBook(list);
     }
 
 }

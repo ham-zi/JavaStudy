@@ -5,7 +5,11 @@ import libraryService.repository.MemoryMemberRepository;
 import libraryService.vo.Member;
 
 public class MemberService {
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
+
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     public void signUp(String name, String id, String pw) {
         Member member = Member.of(name,id,pw);

@@ -23,6 +23,11 @@ public class Rent {
         return rentBooks;
     }
 
+
+    public boolean rentBookRole(Book book) {
+        return (getStockRentBooks()<3 && !hasThisBook(book));
+    }
+
     public int getStockRentBooks() {
         return rentBooks.size();
     }
@@ -45,4 +50,10 @@ public class Rent {
         rentBooks.remove(book.getId());
     }
 
+    @Override
+    public String toString() {
+        return "Rent{" +
+                "memberID='" + memberID + '\'' +
+                '}';
+    }
 }

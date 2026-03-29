@@ -1,6 +1,5 @@
 package libraryService.repository;
 
-import libraryService.vo.Book;
 import libraryService.vo.Rent;
 
 import java.util.ArrayList;
@@ -17,13 +16,12 @@ public class MemoryRentRepository implements RentRepository {
 
     @Override
     public Rent findRentBooks(String id) {
-        Rent rent = null;
-        for(Rent r : rentBooksOfMembers) {
-            if(r.getMemberID().equals(id)) {
-                rent = r;
+        for (Rent r : rentBooksOfMembers) {
+            if (r.getMemberID().equals(id)) {
+                return r;
             }
         }
-        return rent;
+        return null;
     }
 
 

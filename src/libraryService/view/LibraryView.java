@@ -4,15 +4,24 @@ package libraryService.view;
 import libraryService.controller.BookController;
 import libraryService.controller.MemberController;
 import libraryService.controller.RentController;
+import libraryService.vo.Book;
 import libraryService.vo.Member;
 
 import java.util.Scanner;
 
 public class LibraryView {
     private final Scanner scanner = new Scanner(System.in);
-    private final MemberController memberController = new MemberController();
-    private final BookController bookController = new BookController();
-    private final RentController rentController = new RentController();
+    private final MemberController memberController;
+    private final BookController bookController;
+    private final RentController rentController;
+
+    public LibraryView (MemberController memberController, BookController bookController, RentController rentController) {
+        this.memberController = memberController;
+        this.bookController = bookController;
+        this.rentController = rentController;
+    }
+
+
 
     public void menu() {
         Member loginMember = null;
@@ -76,7 +85,7 @@ public class LibraryView {
                 case "6":
                     //대여한 책 목록 보기
                     try {
-                        rentController.printRentedBooks(loginMember);
+                        bookController.printIdToBook( rentController.printRentedBooks(loginMember) );
                     }catch (NullPointerException e) {
                         System.out.println("빌린 책이 없습니다.");
                         continue;
@@ -149,15 +158,24 @@ public class LibraryView {
         String titleRental = scanner.nextLine();
         System.out.println("책 저자 :");
         String authorRental = scanner.nextLine();
-        switch(rentController.borrowBook(loginMember, bookController.getBook(titleRental,authorRental))) {
+        Book br = bookController.getBook(titleRental,authorRental);
+        if (br == null) {
+            System.out.println("책의 이름과 저자를 확인해주세요.");
+            return;
+        }
+        switch(rentController.borrowBook(loginMember, br )) {
             case 1 :
                 System.out.println(titleRental + "을(를) 성공적으로 대여하셨습니다.");
                 break;
             case 2 :
-                System.out.println("책 이름이나 저자를 확인해주세요.");
+                System.out.println("Rent 객체 생성 오류");
                 break;
             case 3 :
                 System.out.println("책 3권 이하로 빌릴 수 있으며, 똑같은 책은 대여 불가능합니다.");
+                break;
+            case 4 :
+                System.out.println("책 재고가 없어서 빌릴 수 없는 책입니다.");
+                break;
             default:
                 break;
         }
@@ -169,7 +187,12 @@ public class LibraryView {
         String returnTitle = scanner.nextLine();
         System.out.println("책 저자:");
         String returnAuthor = scanner.nextLine();
-        int returnNum = rentController.returnBook(loginMember,bookController.getBook(returnTitle,returnAuthor));
+        Book rb = bookController.getBook(returnTitle,returnAuthor);
+        if(rb == null) {
+            System.out.println("반납할 책과 저자를 확인 해주세요.");
+            return;
+        }
+        int returnNum = rentController.returnBook(loginMember,rb);
         switch(returnNum) {
             case 1 :
                 System.out.println(returnTitle+"을(를) 성공적으로 반납하셨습니다.");

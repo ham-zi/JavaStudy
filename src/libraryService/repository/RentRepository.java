@@ -1,9 +1,6 @@
 package libraryService.repository;
 
-import libraryService.vo.Book;
 import libraryService.vo.Rent;
-
-import java.util.List;
 
 public interface RentRepository {
 

@@ -45,5 +45,11 @@ public class Member {
 
     public String getPassWord() { return passWord;}
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
 
